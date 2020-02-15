@@ -2180,6 +2180,53 @@
 
 			});
 
+		</script>
+
+		<script>
+
+			var url = "/app/alpha/v3/SchoolSkirtCorset_onHighBoots_animations_v3(42b).fbx";
+			var loader = new THREE.FBXLoader();
+			loader.load( url, function( object ){
+
+				object.name = "SchoolSkirtCorset_v1";
+				object.scale.set(0.0675, 0.0675, 0.0675); // important!
+				debugMode && console.log( object ); // object is THREE.Group.
+				var mesh = object.children.find( function( child ){
+					return child.type == "SkinnedMesh";
+				});
+				debugMode && console.log( mesh );
+
+				scene.add( object );
+
+				animationController = new MW.AnimationController( object );
+				animationController.motion.jump.setLoop( THREE.LoopOnce, 0 );
+				animationController.motion.slide.setLoop( THREE.LoopOnce, 0 );
+				animationController.motion.jump.clampWhenFinished = true;
+				animationController.motion.slide.clampWhenFinished = true;
+
+			//
+
+				var clock = new THREE.Clock();
+
+				(function update(){
+
+					requestAnimationFrame( update );
+
+					var delta = clock.getDelta();
+
+					animationController.object.position.set(
+						playerController.center.x,
+						playerController.center.y - playerController.radius,
+						playerController.center.z
+					);
+
+					animationController.object.rotation.y = playerController.direction + Math.PI;
+
+					animationController.update( delta );
+
+				})();
+
+			});
 
 		</script>
 
