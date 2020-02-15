@@ -1906,8 +1906,14 @@
 
 
 			var url = "/app/alpha/v3/SchoolSkirtCorset_onHighBoots_animations_v3(42b).fbx";
-			var loader = new THREE.FBXLoader();
-			loader.load( url, function( object ){
+			var fbxLoader = new THREE.FBXLoader();
+			fbxLoader.load( url, function( object ){
+
+				object.name = "SchoolSkirtCorset_v1";
+				object.scale.set(0.045, 0.045, 0.045); // important!
+				debugMode && console.log( object ); // object is THREE.Group.
+
+				scene.add( object );
 
 				var loader = new THREE.FileLoader();
 				loader.load( "app.json", function ( text ) {
@@ -2013,14 +2019,6 @@
 					octree.importThreeMesh( ground ); // important!
 
 				//	animationController.js
-
-					object.name = "SchoolSkirtCorset_v1";
-					object.scale.set(0.045, 0.045, 0.045); // important!
-					debugMode && console.log( object ); // object is THREE.Group.
-
-					scene.add( object );
-
-				//	animation controller.
 
 					animationController = new MW.AnimationController( object );
 					animationController.motion.jump.setLoop( THREE.LoopOnce, 0 );
