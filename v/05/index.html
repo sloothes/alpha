@@ -1913,8 +1913,6 @@
 				object.scale.set(0.045, 0.045, 0.045); // important!
 				debugMode && console.log( object ); // object is THREE.Group.
 
-				scene.add( object );
-
 				var loader = new THREE.FileLoader();
 				loader.load( "app.json", function ( text ) {
 
@@ -2035,6 +2033,7 @@
 					playerController.addEventListener( "startSliding", function () { animationController.play( "Armature|Sitting" ); } ); // debug!
 					playerController.addEventListener( "startFalling", function () { animationController.play( "Armature|Sitting" ); } ); // debug!
 
+					scene.add( object );
 
 				//	Update.
 
