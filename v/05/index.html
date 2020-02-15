@@ -2203,8 +2203,8 @@
 					animationController = new MW.AnimationController( object );
 					animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
 					animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 );
-					animationController.motion["Armature|Jumping"].clampWhenFinished = true;
-					animationController.motion["Armature|Sitting"].clampWhenFinished = true;
+				//	animationController.motion["Armature|Jumping"].clampWhenFinished = true;
+				//	animationController.motion["Armature|Sitting"].clampWhenFinished = true;
 
 					playerController.addEventListener( 'startIdling',  function () { animationController.play( "Armature|Standing"); } );
 					playerController.addEventListener( 'startWalking', function () { animationController.play( "Armature|Running" ); } );
