@@ -2206,6 +2206,13 @@
 					animationController.motion["Armature|Jumping"].clampWhenFinished = true;
 					animationController.motion["Armature|Sitting"].clampWhenFinished = true;
 
+					playerController.addEventListener( 'startIdling',  function () { animationController.play( "Armature|Standing"); } );
+					playerController.addEventListener( 'startWalking', function () { animationController.play( "Armature|Running" ); } );
+					playerController.addEventListener( 'startJumping', function () { animationController.play( "Armature|Jumping" ); } );
+					playerController.addEventListener( 'startSliding', function () { animationController.play( "Armature|Sitting" ); } );
+					playerController.addEventListener( 'startFalling', function () { animationController.play( "Armature|Sitting" ); } );
+
+
 					var clock = new THREE.Clock();
 
 					(function update(){
