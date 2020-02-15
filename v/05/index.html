@@ -2177,15 +2177,21 @@
 			//	}); debugMode && console.log( mesh );
 
 				animationController = new MW.AnimationController( object );
-				animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
-				animationController.motion["Armature|Jumping"].clampWhenFinished = true;
-				animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 );
-				animationController.motion["Armature|Sitting"].clampWhenFinished = true;
+				animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
+				animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 ); // important!
+				animationController.motion["Armature|Jumping"].clampWhenFinished = true;     // important!
+				animationController.motion["Armature|Sitting"].clampWhenFinished = true;     // important!
 
 				playerController.addEventListener( "startIdling",  function () { animationController.play( "Armature|Standing"); } );
 				playerController.addEventListener( "startWalking", function () { animationController.play( "Armature|Running" ); } );
 
-			//	this looks to work correct (play then reset motion).
+			//	yomotsu way is to have only a pose for jump/sliding animation and use event listener to play that pose.
+			//	playerController.addEventListener( "startJumping", function () { animationController.play( "Jump|Pose" ); } );
+			//	playerController.addEventListener( "startSliding", function () { animationController.play( "SlidePose" ); } );
+			//	playerController.addEventListener( "startFalling", function () { animationController.play( "SlidePose" ); } );
+
+			//	My way is to have each animation for jumping/sliding and in event listener the controller play the animation
+			//	and then resets the animation controller motion. Its this looks to work correctly (play and reset motion).
 				playerController.addEventListener( "startJumping", function () { 
 					animationController.play( "Armature|Jumping" );         // important!
 					animationController.motion["Armature|Jumping"].reset(); // important!
