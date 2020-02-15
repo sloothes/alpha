@@ -86,7 +86,7 @@
 			},
 			{
 				"name": "playerController.js",
-				"source": "playerController = new MW.CharacterController( playerObjectHolder, playerRadius );\nworld.add( playerController );\n"
+				"source": "playerController = new MW.CharacterController( playerObjectHolder, playerRadius );\nplayerController.movementSpeed = 50;\nworld.add( playerController );\n"
 			},
 			{
 				"name": "keyInputControls.js",
