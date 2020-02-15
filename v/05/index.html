@@ -2168,7 +2168,7 @@
 			loader.load( url, function( object ){
 
 				object.name = "SchoolSkirtCorset_v1";
-				var s = 0.0275; object.scale.set(s, s, s); // important!
+				var s = 0.045; object.scale.set(s, s, s); // important!
 				scene.add( object );
 				debugMode && console.log( object ); // object is THREE.Group.
 
@@ -2187,6 +2187,7 @@
 
 				playerController.addEventListener( "startJumping", function () { 
 					animationController.motion["Armature|Jumping"].reset();
+				//	animationController.motion["Armature|Jumping"].clampWhenFinished = true;
 					animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
 				//	animationController.play( "Armature|Jumping" ); 
 				});
