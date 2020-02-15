@@ -47,6 +47,29 @@
 					"name": "Ground Helper",
 					"layers": 1,
 					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
+				},
+				{
+					"uuid": "DCB6601D-6874-440A-9CB2-7039F77764CF",
+					"type": "DirectionalLight",
+					"name": "DirectionalLight",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,5,10,7.5,1],
+					"color": 16777215,
+					"intensity": 1,
+					"shadow": {
+						"camera": {
+							"uuid": "AE753E26-B5BC-4CEA-AEE9-C71BA3EEB1A0",
+							"type": "OrthographicCamera",
+							"layers": 1,
+							"zoom": 1,
+							"left": -5,
+							"right": 5,
+							"top": 5,
+							"bottom": -5,
+							"near": 0.5,
+							"far": 500
+						}
+					}
 				}],
 			"background": 0
 		}
