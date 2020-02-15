@@ -2168,14 +2168,13 @@
 			loader.load( url, function( object ){
 
 				object.name = "SchoolSkirtCorset_v1";
-				object.scale.set(0.0675, 0.0675, 0.0675); // important!
-				debugMode && console.log( object ); // object is THREE.Group.
-				var mesh = object.children.find( function( child ){
-					return child.type == "SkinnedMesh";
-				});
-				debugMode && console.log( mesh );
-
+				var s = 0.0275; object.scale.set(s, s, s); // important!
 				scene.add( object );
+				debugMode && console.log( object ); // object is THREE.Group.
+
+			//	var mesh = object.children.find( function( child ){
+			//		return child.type == "SkinnedMesh";
+			//	}); debugMode && console.log( mesh );
 
 				animationController = new MW.AnimationController( object );
 			//	animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
@@ -2183,11 +2182,15 @@
 			//	animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 );
 			//	animationController.motion["Armature|Sitting"].clampWhenFinished = true;
 
-				playerController.addEventListener( 'startIdling',  function () { animationController.play( "Armature|Standing"); } );
-				playerController.addEventListener( 'startWalking', function () { animationController.play( "Armature|Running" ); } );
-				playerController.addEventListener( 'startJumping', function () { animationController.play( "Armature|Jumping" ); } );
-			//	playerController.addEventListener( 'startSliding', function () { animationController.play( "Armature|Sitting" ); } );
-			//	playerController.addEventListener( 'startFalling', function () { animationController.play( "Armature|Sitting" ); } );
+				playerController.addEventListener( "startIdling",  function () { animationController.play( "Armature|Standing"); } );
+				playerController.addEventListener( "startWalking", function () { animationController.play( "Armature|Running" ); } );
+				playerController.addEventListener( "startJumping", function () { animationController.play( "Armature|Jumping" ); } );
+
+				playerController.addEventListener( "startIdling",  function () { animationController.motion[ "Armature|Jumping" ].stop(); } ); // hack.
+				playerController.addEventListener( "startWalking", function () { animationController.motion[ "Armature|Jumping" ].stop(); } ); // hack.
+
+			//	playerController.addEventListener( "startSliding", function () { animationController.play( "Armature|Sitting" ); } );
+			//	playerController.addEventListener( "startFalling", function () { animationController.play( "Armature|Sitting" ); } );
 
 
 				var clock = new THREE.Clock();
