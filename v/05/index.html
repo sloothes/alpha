@@ -1904,114 +1904,115 @@
 
 			MW.install( THREE ); // important!
 
-			var loader = new THREE.FileLoader();
-			loader.load( "app.json", function ( text ) {
 
-				player = new APP.Player();
-				player.load( JSON.parse( text ) );
-				player.setSize( window.innerWidth, window.innerHeight );
-				player.play();
+			var url = "/app/alpha/v3/SchoolSkirtCorset_onHighBoots_animations_v3(42b).fbx";
+			var loader = new THREE.FBXLoader();
+			loader.load( url, function( object ){
 
-				document.body.appendChild( player.dom );
+				var loader = new THREE.FileLoader();
+				loader.load( "app.json", function ( text ) {
 
-				window.addEventListener( "resize", function () {
+					player = new APP.Player();
+					player.load( JSON.parse( text ) );
 					player.setSize( window.innerWidth, window.innerHeight );
-				});
+					player.play();
 
-			//	world.js
+					document.body.appendChild( player.dom );
 
-				world = new MW.World();
+					window.addEventListener( "resize", function () {
+						player.setSize( window.innerWidth, window.innerHeight );
+					});
 
-				var min = new THREE.Vector3( -1500, -1500, -1500 );
-				var max = new THREE.Vector3(  1500,  1500,  1500 );
-				var partition = 5;
+				//	world.js
 
-				octree = new MW.Octree( min, max, partition );
-				world.add( octree );
+					world = new MW.World();
 
-			//	playerHolder.js
+					var min = new THREE.Vector3( -1500, -1500, -1500 );
+					var max = new THREE.Vector3(  1500,  1500,  1500 );
+					var partition = 5;
 
-				playerRadius = 10;
-				playerObjectHolder = new THREE.Object3D();
-				playerObjectHolder.position.set( 0, 10, 0 );
-				scene.add( playerObjectHolder );
+					octree = new MW.Octree( min, max, partition );
+					world.add( octree );
 
-				var sphere = new THREE.Mesh(
-					new THREE.SphereGeometry( playerRadius, 8, 4 ),
-					new THREE.MeshBasicMaterial( { color: 0xff0000,  wireframe: true} )
-				);
+				//	playerHolder.js
 
-				playerObjectHolder.add( sphere );
+					playerRadius = 10;
+					playerObjectHolder = new THREE.Object3D();
+					playerObjectHolder.position.set( 0, 10, 0 );
+					scene.add( playerObjectHolder );
 
-			//	playerController.js
+					var sphere = new THREE.Mesh(
+						new THREE.SphereGeometry( playerRadius, 8, 4 ),
+						new THREE.MeshBasicMaterial( { color: 0xff0000,  wireframe: true} )
+					);
 
-				playerController = new MW.CharacterController( playerObjectHolder, playerRadius );
-				world.add( playerController );
+					playerObjectHolder.add( sphere );
 
-			//	keyInputControls.js
+				//	playerController.js
 
-				keyInputControls = new MW.KeyInputControl();
+					playerController = new MW.CharacterController( playerObjectHolder, playerRadius );
+					world.add( playerController );
 
-				// bind events.
+				//	keyInputControls.js
 
-				keyInputControls.addEventListener( "movekeyon", function () { playerController.isRunning = true; } );
-				keyInputControls.addEventListener( "movekeyoff", function () { playerController.isRunning = false; } );
-				keyInputControls.addEventListener( "jumpkeypress", function () { playerController.jump(); } );
+					keyInputControls = new MW.KeyInputControl();
 
-				// synk with keybord input and camera control input.
-				keyInputControls.addEventListener( "movekeychange",  function () {
+					// bind events.
 
-				  var cameraFrontAngle = cameraControls.getFrontAngle();
-				  var characterFrontAngle = keyInputControls.frontAngle;
-				  playerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;
+					keyInputControls.addEventListener( "movekeyon", function () { playerController.isRunning = true; } );
+					keyInputControls.addEventListener( "movekeyoff", function () { playerController.isRunning = false; } );
+					keyInputControls.addEventListener( "jumpkeypress", function () { playerController.jump(); } );
 
-				});
+					// synk with keybord input and camera control input.
+					keyInputControls.addEventListener( "movekeychange",  function () {
 
-			//	cameraControls.js
+					  var cameraFrontAngle = cameraControls.getFrontAngle();
+					  var characterFrontAngle = keyInputControls.frontAngle;
+					  playerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;
 
-				cameraControls = new MW.TPSCameraControl(
-					camera, 			// three.js camera.
-					playerObjectHolder,	// tracking object.
-					{
-						el: renderer.domElement,
-						offset: new THREE.Vector3( 0, 1.8, 0 ), // eye height.
-					//	radius: 1, // default distance of the character to the camera.
-					//	minRadius: 1,
-					//	maxRadius: 80,
-						rigidObjects: []
-					}
-				);
+					});
 
-			//	"updated" event is fired by "tpsCameraControl.update()"
-				cameraControls.addEventListener( "updated", function () {
+				//	cameraControls.js
 
-					var cameraFrontAngle = cameraControls.getFrontAngle();
-					var characterFrontAngle = keyInputControls.frontAngle;
-					playerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;
+					cameraControls = new MW.TPSCameraControl(
+						camera, 			// three.js camera.
+						playerObjectHolder,	// tracking object.
+						{
+							el: renderer.domElement,
+							offset: new THREE.Vector3( 0, 1.8, 0 ), // eye height.
+						//	radius: 1, // default distance of the character to the camera.
+						//	minRadius: 1,
+						//	maxRadius: 80,
+							rigidObjects: []
+						}
+					);
 
-				});
+				//	"updated" event is fired by "tpsCameraControl.update()"
+					cameraControls.addEventListener( "updated", function () {
 
-			//	ground.js
+						var cameraFrontAngle = cameraControls.getFrontAngle();
+						var characterFrontAngle = keyInputControls.frontAngle;
+						playerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;
 
-				var ground = new THREE.Mesh(
-					new THREE.PlaneGeometry( 3000, 3000, 1, 1 ),
-					new THREE.MeshLambertMaterial({ 
-						opacity:1, 
-						color:0x829ec4,
-					})
-				);
+					});
 
-				//	We need only the geometry of the ground
-				//	so there is not need to add to the scene.
+				//	ground.js
 
-				ground.rotation.x = -Math.PI / 2; // THREE.Math.degToRad( -90 );
-				octree.importThreeMesh( ground ); // important!
+					var ground = new THREE.Mesh(
+						new THREE.PlaneGeometry( 3000, 3000, 1, 1 ),
+						new THREE.MeshLambertMaterial({ 
+							opacity:1, 
+							color:0x829ec4,
+						})
+					);
 
-			//	animationController.js
+					//	We need only the geometry of the ground
+					//	so there is not need to add to the scene.
 
-				var url = "/app/alpha/v3/SchoolSkirtCorset_onHighBoots_animations_v3(42b).fbx";
-				var loader = new THREE.FBXLoader();
-				loader.load( url, function( object ){
+					ground.rotation.x = -Math.PI / 2; // THREE.Math.degToRad( -90 );
+					octree.importThreeMesh( ground ); // important!
+
+				//	animationController.js
 
 					object.name = "SchoolSkirtCorset_v1";
 					object.scale.set(0.045, 0.045, 0.045); // important!
@@ -2065,22 +2066,6 @@
 
 
 				});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 			});
 
