@@ -1,0 +1,90 @@
+{
+	"metadata": {
+		"type": "App"
+	},
+	"project": {
+		"shadows": true,
+		"vr": false
+	},
+	"camera": {
+		"metadata": {
+			"version": 4.5,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"object": {
+			"uuid": "7EBF5271-183C-4EF3-9AF3-944F94A99A76",
+			"type": "PerspectiveCamera",
+			"name": "Camera",
+			"layers": 1,
+			"matrix": [0.07572377160642263,-5.551115123125783e-17,-0.9971288334080498,0,-0.4189771564475511,0.9074391244443569,-0.031817884951441916,0,0.9048337155460237,0.42018357348623103,0.06871471300615661,0,28.863122857321432,13.403357872051533,2.1919178844981984,1],
+			"fov": 50,
+			"zoom": 1,
+			"near": 1,
+			"far": 10000,
+			"focus": 10,
+			"aspect": 1.8764705882352941,
+			"filmGauge": 35,
+			"filmOffset": 0
+		}
+	},
+	"scene": {
+		"metadata": {
+			"version": 4.5,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"object": {
+			"uuid": "447F879B-4090-46CD-B04C-DA4E2BC14E16",
+			"type": "Scene",
+			"name": "Scene",
+			"layers": 1,
+			"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+			"children": [
+				{
+					"uuid": "01D3F453-9111-421D-BDAE-0F50DC307123",
+					"type": "Group",
+					"name": "Ground Helper",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
+				}],
+			"background": 0
+		}
+	},
+	"scripts": {
+		"447F879B-4090-46CD-B04C-DA4E2BC14E16": [
+			{
+				"name": "world.js",
+				"source": "world = new MW.World();\n\nvar min = new THREE.Vector3( -1500, -1500, -1500 );\nvar max = new THREE.Vector3(  1500,  1500,  1500 );\nvar partition = 5;\n\noctree = new MW.Octree( min, max, partition );\nworld.add( octree );\n\nclock = new THREE.Clock();\nfunction update() {\n\n\tvar delta = clock.getDelta();\n\tworld.step( Math.min( delta, 0.02 ) );\n\n}"
+			},
+			{
+				"name": "playerHolder.js",
+				"source": "playerObjectHolder = new THREE.Object3D();\nplayerObjectHolder.position.set( 0, 10, 0 );\nscene.add( playerObjectHolder );\n\nvar sphere = new THREE.Mesh(\n  new THREE.SphereGeometry( playerRadius, 8, 8 ),\n  new THREE.MeshBasicMaterial( { color: 0xff0000,  wireframe: true} )\n);\nplayerObjectHolder.add( sphere );\n"
+			},
+			{
+				"name": "playerController.js",
+				"source": "playerRadius = 1;\nplayerController = new MW.CharacterController( playerObjectHolder, playerRadius );\nworld.add( playerController );\n"
+			},
+			{
+				"name": "keyInputControls.js",
+				"source": "keyInputControl = new MW.KeyInputControl();\n\n// bind events.\n\nkeyInputControl.addEventListener( \"movekeyon\", function () { playerController.isRunning = true; } );\nkeyInputControl.addEventListener( \"movekeyoff\", function () { playerController.isRunning = false; } );\nkeyInputControl.addEventListener( \"jumpkeypress\", function () { playerController.jump(); } );\n\n// synk with keybord input and camera control input.\nkeyInputControl.addEventListener( \"movekeychange\",  function () {\n  \n  var cameraFrontAngle = cameraControl.getFrontAngle();\n  var characterFrontAngle = keyInputControl.frontAngle;\n  playerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n\n});\n"
+			},
+			{
+				"name": "cameraControls.js",
+				"source": "cameraControl = new MW.TPSCameraControl(\n\tcamera, // three.js camera\n\tplayerObjectHolder, // tracking object\n\t{\n\t\tel: renderer.domElement,\n\t\toffset: new THREE.Vector3( 0, 1.8, 0 ), // eye height\n\t\t// radius: 1, // default distance of the character to the camera\n\t\t// minRadius: 1,\n\t\t// maxRadius: 80,\n\t\trigidObjects: []\n\t}\n);\n\n// \"updated\" event is fired by \"tpsCameraControl.update()\"\ncameraControl.addEventListener( \"updated\", function () {\n\n\tvar cameraFrontAngle = cameraControl.getFrontAngle();\n\tvar characterFrontAngle = keyInputControl.frontAngle;\n\tplayerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n\n});\n\n\nfunction update(){\n\n    cameraControl.update();\n\n}"
+			},
+			{
+				"name": "ground.js",
+				"source": "var ground = new THREE.Mesh(\n\tnew THREE.PlaneGeometry( 3000, 3000, 1, 1 ),\n\tnew THREE.MeshLambertMaterial({ \n\t\topacity:1, \n\t\tcolor:0x829ec4,\n\t})\n);\n\n//\tWe need only the geometry of the ground\n//\tso there is not need to add to the scene.\n\nground.rotation.x = -Math.PI / 2; // THREE.Math.degToRad( -90 );\noctree.importThreeMesh( ground ); // important!\n"
+			},
+			{
+				"name": "animationController.js",
+				"source": "var url = \"/app/alpha/v3/SchoolSkirtCorset_onHighBoots_animations_v3(42b).fbx\";\nvar loader = new THREE.FBXLoader();\nloader.load( url, function( object ){\n\n\tobject.name = \"SchoolSkirtCorset_v1\";\n\tobject.scale.set(0.0675, 0.0675, 0.0675); // important!\n\tdebugMode && console.log( object ); // object is THREE.Group.\n\n\tcharacterMesh = object.children.find( function( child ){\n\t\treturn child.type == \"SkinnedMesh\";\n\t});\n\n\tdebugMode && console.log( characterMesh );\n\n//\tanimation controller.\n\n\tanimationController = new MW.AnimationController( characterMesh );\n\tanimationController.motion.jump.setLoop( THREE.LoopOnce, 0 );\n\tanimationController.motion.slide.setLoop( THREE.LoopOnce, 0 );\n\tanimationController.motion.jump.clampWhenFinished = true;\n\tanimationController.motion.slide.clampWhenFinished = true;\n\n//\tplayer motion.\n\n\tplayerController.addEventListener( \"startIdling\",  function () { animationController.play( \"Standing\" ); } );\n\tplayerController.addEventListener( \"startWalking\", function () { animationController.play( \"Running\" ); } );\n\tplayerController.addEventListener( \"startJumping\", function () { animationController.play( \"Jumping\" ); } );\n\tplayerController.addEventListener( \"startSliding\", function () { animationController.play( \"Sitting\" ); } );\n\tplayerController.addEventListener( \"startFalling\", function () { animationController.play( \"Sitting\" ); } );\n\n});\n\nvar clock = new THREE.Clock();\nfunction update() {\n\n\tvar delta = clock.getDelta();\n\n\tif ( animationController ) {\n\n\t\tanimationController.mesh.position.set(\n\t\t\tplayerController.center.x,\n\t\t\tplayerController.center.y - playerController.radius,\n\t\t\tplayerController.center.z\n\t\t);\n\n\t\tanimationController.mesh.rotation.y = playerController.direction + Math.PI;\n\n\t\tanimationController.update( delta );\n\t}\n\n}"
+			}],
+		"01D3F453-9111-421D-BDAE-0F50DC307123": [
+			{
+				"name": "groundHelper.js",
+				"source": "groundHelper = this;\nthis.add( new THREE.GridHelper( 3000, 300, 0x444444, 0x444444 ) );"
+			}]
+	}
+}
