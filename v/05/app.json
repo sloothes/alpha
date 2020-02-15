@@ -17,7 +17,7 @@
 			"type": "PerspectiveCamera",
 			"name": "Camera",
 			"layers": 1,
-			"matrix": [-0.5177369654279224,2.775557561562892e-17,-0.8555398498196835,0,-0.4166449201703013,0.8734039158513063,0.25213609474227894,0,0.74723185499935,0.48699650899734825,-0.45219349298571976,0,23.83581034083765,15.534611308990472,-14.424436356742177,1],
+			"matrix": [-0.999978268538033,-2.1684043449710093e-19,-0.0065926058337222385,0,-0.0021590234124413375,0.9448540703183836,0.3274845407354179,0,0.006229050455997177,0.32749165760791993,-0.94483353725809,0,0.19869932508804272,10.44659564059366,-30.139069750668202,1],
 			"fov": 50,
 			"zoom": 1,
 			"near": 1,
@@ -78,31 +78,31 @@
 		"447F879B-4090-46CD-B04C-DA4E2BC14E16": [
 			{
 				"name": "world.js",
-				"source": "world = new MW.World();\n\nvar min = new THREE.Vector3( -1500, -1500, -1500 );\nvar max = new THREE.Vector3(  1500,  1500,  1500 );\nvar partition = 5;\n\noctree = new MW.Octree( min, max, partition );\nworld.add( octree );\n\nclock = new THREE.Clock();\nfunction update() {\n\n\tvar delta = clock.getDelta();\n\tworld.step( Math.min( delta, 0.02 ) );\n\n}"
+				"source": ""
 			},
 			{
 				"name": "playerHolder.js",
-				"source": "playerRadius = 10;\nplayerObjectHolder = new THREE.Object3D();\nplayerObjectHolder.position.set( 0, 10, 0 );\nscene.add( playerObjectHolder );\n\nvar sphere = new THREE.Mesh(\n  new THREE.SphereGeometry( playerRadius, 8, 4 ),\n  new THREE.MeshBasicMaterial( { color: 0xff0000,  wireframe: true} )\n);\n\nplayerObjectHolder.add( sphere );\n"
+				"source": ""
 			},
 			{
 				"name": "playerController.js",
-				"source": "playerController = new MW.CharacterController( playerObjectHolder, playerRadius );\nworld.add( playerController );\n\n"
+				"source": ""
 			},
 			{
 				"name": "keyInputControls.js",
-				"source": "keyInputControls = new MW.KeyInputControl();\n\n// bind events.\n\nkeyInputControls.addEventListener( \"movekeyon\", function () { playerController.isRunning = true; } );\nkeyInputControls.addEventListener( \"movekeyoff\", function () { playerController.isRunning = false; } );\nkeyInputControls.addEventListener( \"jumpkeypress\", function () { playerController.jump(); } );\n\n// synk with keybord input and camera control input.\nkeyInputControls.addEventListener( \"movekeychange\",  function () {\n  \n  var cameraFrontAngle = cameraControls.getFrontAngle();\n  var characterFrontAngle = keyInputControls.frontAngle;\n  playerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n\n});\n"
+				"source": ""
 			},
 			{
 				"name": "cameraControls.js",
-				"source": "cameraControls = new MW.TPSCameraControl(\n\tcamera, // three.js camera\n\tplayerObjectHolder, // tracking object\n\t{\n\t\tel: renderer.domElement,\n\t\toffset: new THREE.Vector3( 0, 1.8, 0 ), // eye height\n\t\t// radius: 1, // default distance of the character to the camera\n\t\t// minRadius: 1,\n\t\t// maxRadius: 80,\n\t\trigidObjects: []\n\t}\n);\n\n// \"updated\" event is fired by \"tpsCameraControl.update()\"\ncameraControls.addEventListener( \"updated\", function () {\n\n\tvar cameraFrontAngle = cameraControls.getFrontAngle();\n\tvar characterFrontAngle = keyInputControls.frontAngle;\n\tplayerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n\n});\n\n\nfunction update(){\n\n    cameraControls.update();\n\n}"
+				"source": ""
 			},
 			{
 				"name": "ground.js",
-				"source": "var ground = new THREE.Mesh(\n\tnew THREE.PlaneGeometry( 3000, 3000, 1, 1 ),\n\tnew THREE.MeshLambertMaterial({ \n\t\topacity:1, \n\t\tcolor:0x829ec4,\n\t})\n);\n\n//\tWe need only the geometry of the ground\n//\tso there is not need to add to the scene.\n\nground.rotation.x = -Math.PI / 2; // THREE.Math.degToRad( -90 );\noctree.importThreeMesh( ground ); // important!\n"
+				"source": ""
 			},
 			{
 				"name": "animationController.js",
-				"source": "var url = \"/app/alpha/v3/SchoolSkirtCorset_onHighBoots_animations_v3(42b).fbx\";\nvar loader = new THREE.FBXLoader();\nloader.load( url, function( object ){\n\n\tobject.name = \"SchoolSkirtCorset_v1\";\n\tobject.scale.set(0.045, 0.045, 0.045); // important!\n\tdebugMode && console.log( object ); // object is THREE.Group.\n\n\tscene.add( object );\n\n//\tanimation controller.\n\n\tanimationController = new MW.AnimationController( object );\n\tanimationController.motion.jump.setLoop( THREE.LoopOnce, 0 );\n\tanimationController.motion.slide.setLoop( THREE.LoopOnce, 0 );\n\tanimationController.motion.jump.clampWhenFinished = true;\n\tanimationController.motion.slide.clampWhenFinished = true;\n\tconsole.log( \"animationController:\", animationController );\n\n//\tplayer motion.\n\n\tplayerController.addEventListener( \"startIdling\",  function () { animationController.play( \"Armature|Standing\" ); } );\n\tplayerController.addEventListener( \"startWalking\", function () { animationController.play( \"Armature|Running\" ); } );\n\tplayerController.addEventListener( \"startJumping\", function () { animationController.play( \"Armature|Jumping\" ); } );\n\tplayerController.addEventListener( \"startSliding\", function () { animationController.play( \"Armature|Sitting\" ); } ); // debug!\n\tplayerController.addEventListener( \"startFalling\", function () { animationController.play( \"Armature|Sitting\" ); } ); // debug!\n\n});\n\nvar clock = new THREE.Clock();\n\nfunction update(){\n\n\tvar delta = clock.getDelta();\n\n\tif ( animationController ) {\n\n\t\tanimationController.object.position.set(\n\t\t\tplayerController.center.x,\n\t\t\tplayerController.center.y - playerController.radius,\n\t\t\tplayerController.center.z\n\t\t);\n\n\t\tanimationController.object.rotation.y = playerController.direction + Math.PI;\n\n\t\tanimationController.update( delta );\n\t}\n\n}\n"
+				"source": ""
 			}],
 		"01D3F453-9111-421D-BDAE-0F50DC307123": [
 			{
