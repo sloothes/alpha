@@ -2177,7 +2177,7 @@
 			//	}); debugMode && console.log( mesh );
 
 				animationController = new MW.AnimationController( object );
-			//	animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
+				animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
 			//	animationController.motion["Armature|Jumping"].clampWhenFinished = true;
 			//	animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 );
 			//	animationController.motion["Armature|Sitting"].clampWhenFinished = true;
@@ -2187,7 +2187,7 @@
 				playerController.addEventListener( "startJumping", function () { 
 					animationController.motion["Armature|Jumping"].reset();
 				//	animationController.motion["Armature|Jumping"].clampWhenFinished = true;
-					animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
+				//	animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
 				//	animationController.play( "Armature|Jumping" ); 
 				});
 
