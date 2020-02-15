@@ -50,19 +50,25 @@
 		<script src="js/UVsDebug.js"></script>
 		<script src="js/FBXLoader.js"></script>
 		<script src="js/EditorControls.js"></script>
+
 		<script>
+
 			/*!
 			 * meshwalk.js
 			 * https://github.com/yomotsu/meshwalk.js
 			 * (c) 2015 @yomotsu
 			 * Released under the MIT License.
 			 */
+
 			(function (global, factory) {
+
 				typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 				typeof define === 'function' && define.amd ? define(['exports'], factory) :
 				(factory((global.MW = {})));
+
 			}(this, (function (exports) { 
-				'use strict';
+
+				"use strict";
 
 				var THREE$1 = void 0; // bind on install
 
@@ -446,9 +452,28 @@
 					return { contactPoint: contactPoint };
 				}
 
-				var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); 
+						return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
 				// OcTree with Morton Order
 				// based on http://marupeke296.com/COL_3D_No15_Octree.html
@@ -578,11 +603,18 @@
 
 							for (var _i = 0, _l = geometry.faces.length; _i < _l; _i++) {
 
-								var _face = new Face(geometry.vertices[geometry.faces[_i].a], geometry.vertices[geometry.faces[_i].b], geometry.vertices[geometry.faces[_i].c], geometry.faces[_i].normal, geometryId);
+								var _face = new Face(
+									geometry.vertices[geometry.faces[_i].a], 
+									geometry.vertices[geometry.faces[_i].b], 
+									geometry.vertices[geometry.faces[_i].c], 
+									geometry.faces[_i].normal, geometryId
+								);
 								this.addFace(_face);
 							}
 						}
+
 					}, {
+
 						key: 'addFace',
 						value: function addFace(face) {
 
@@ -616,7 +648,9 @@
 								tmp.length = 0;
 							}
 						}
+
 					}, {
+
 						key: 'removeThreeMesh',
 						value: function removeThreeMesh(meshID) {
 
@@ -751,7 +785,9 @@
 							if (this.depth === 0) return null;
 							this.tree.nodes[this.depth][this.mortonNumber >> 3];
 						}
+
 					}, {
+
 						key: 'getChildNodes',
 						value: function getChildNodes() {
 
@@ -762,7 +798,16 @@
 
 							var firstChild = this.mortonNumber << 3;
 
-							return [this.tree.nodes[this.depth + 1][firstChild], this.tree.nodes[this.depth + 1][firstChild + 1], this.tree.nodes[this.depth + 1][firstChild + 2], this.tree.nodes[this.depth + 1][firstChild + 3], this.tree.nodes[this.depth + 1][firstChild + 4], this.tree.nodes[this.depth + 1][firstChild + 5], this.tree.nodes[this.depth + 1][firstChild + 6], this.tree.nodes[this.depth + 1][firstChild + 7]];
+							return [
+								this.tree.nodes[this.depth + 1][firstChild], 
+								this.tree.nodes[this.depth + 1][firstChild + 1], 
+								this.tree.nodes[this.depth + 1][firstChild + 2], 
+								this.tree.nodes[this.depth + 1][firstChild + 3], 
+								this.tree.nodes[this.depth + 1][firstChild + 4], 
+								this.tree.nodes[this.depth + 1][firstChild + 5], 
+								this.tree.nodes[this.depth + 1][firstChild + 6], 
+								this.tree.nodes[this.depth + 1][firstChild + 7]
+							];
 						}
 					}]);
 
@@ -803,9 +848,27 @@
 
 				// }
 
-				var _createClass$1 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass$1 = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; 
+							descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck$1(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
 				var World = function () {
 					function World() {
@@ -828,7 +891,9 @@
 								object.world = this;
 							}
 						}
+
 					}, {
+
 						key: 'step',
 						value: function step(dt) {
 
@@ -856,9 +921,28 @@
 					return World;
 				}();
 
-				var _createClass$2 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass$2 = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; 
+							descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); 
+						return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck$2(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
 				var TURN_DURATION = 200;
 				var TAU = 2 * Math.PI;
@@ -913,7 +997,9 @@
 
 							this.currentMotionName = name;
 						}
+
 					}, {
+
 						key: 'turn',
 						value: function turn(rad, immediate) {
 
@@ -961,7 +1047,9 @@
 								})();
 							}
 						}
+
 					}, {
+
 						key: 'update',
 						value: function update(delta) {
 
@@ -972,9 +1060,28 @@
 					return AnimationController;
 				}();
 
-				var _createClass$3 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass$3 = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; 
+							descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); 
+						return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck$3(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
 				// based on https://github.com/mrdoob/eventdispatcher.js/
 
@@ -1001,7 +1108,9 @@
 								listeners[type].push(listener);
 							}
 						}
+
 					}, {
+
 						key: "hasEventListener",
 						value: function hasEventListener(type, listener) {
 
@@ -1009,7 +1118,9 @@
 
 							return listeners[type] !== undefined && listeners[type].indexOf(listener) !== -1;
 						}
+
 					}, {
+
 						key: "removeEventListener",
 						value: function removeEventListener(type, listener) {
 
@@ -1026,7 +1137,9 @@
 								}
 							}
 						}
+
 					}, {
+
 						key: "dispatchEvent",
 						value: function dispatchEvent(event) {
 
@@ -1050,13 +1163,52 @@
 					return EventDispatcher;
 				}();
 
-				var _createClass$4 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass$4 = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; 
+							descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); 
+						return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck$4(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
-				function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+				function _possibleConstructorReturn(self, call) { 
+					if (!self) { 
+						throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); 
+					} 
+					return call && (typeof call === "object" || typeof call === "function") ? call : self;
+				}
 
-				function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+				function _inherits(subClass, superClass) { 
+					if (typeof superClass !== "function" && superClass !== null) { 
+						throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); 
+					} 
+
+					subClass.prototype = Object.create(superClass && superClass.prototype, { 
+						constructor: { 
+							value: subClass, 
+							enumerable: false, 
+							writable: true, 
+							configurable: true 
+						} 
+					}); 
+
+					if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; 
+				}
 
 				var CharacterController = function (_EventDispatcher) {
 					_inherits(CharacterController, _EventDispatcher);
@@ -1112,7 +1264,9 @@
 
 								_this.isIdling = true;
 								_this.dispatchEvent({ type: 'startIdling' });
-							} else if (!wasRunning && _this.isRunning && !_this.isJumping && _this.isGrounded || !wasGrounded && _this.isGrounded && _this.isRunning || wasOnSlope && !_this.isOnSlope && _this.isRunning && _this.isGrounded) {
+							} else if (!wasRunning && _this.isRunning && !_this.isJumping && _this.isGrounded 
+									   || !wasGrounded && _this.isGrounded && _this.isRunning 
+									   || wasOnSlope && !_this.isOnSlope && _this.isRunning && _this.isGrounded) {
 
 								_this.isIdling = false;
 								_this.dispatchEvent({ type: 'startWalking' });
@@ -1246,7 +1400,9 @@
 								this.isJumping = false;
 							}
 						}
+
 					}, {
+
 						key: 'updateGrounding',
 						value: function updateGrounding() {
 
@@ -1476,13 +1632,52 @@
 					return CharacterController;
 				}(EventDispatcher);
 
-				var _createClass$5 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass$5 = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; 
+							descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); 
+						return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck$5(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
-				function _possibleConstructorReturn$1(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+				function _possibleConstructorReturn$1(self, call) { 
+					if (!self) { 
+						throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); 
+					} 
+					return call && (typeof call === "object" || typeof call === "function") ? call : self; 
+				}
 
-				function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+				function _inherits$1(subClass, superClass) { 
+					if (typeof superClass !== "function" && superClass !== null) { 
+						throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); 
+					} 
+
+					subClass.prototype = Object.create(superClass && superClass.prototype, { 
+						constructor: { 
+							value: subClass, 
+							enumerable: false, 
+							writable: true, 
+							configurable: true 
+						} 
+					}); 
+
+					if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; 
+				}
 
 				var KEY_W = 87;
 				var KEY_UP = 38;
@@ -1538,7 +1733,9 @@
 
 							this.dispatchEvent({ type: 'jumpkeypress' });
 						}
+
 					}, {
+
 						key: 'updateAngle',
 						value: function updateAngle() {
 
@@ -1547,7 +1744,14 @@
 							var left = this.isLeft;
 							var right = this.isRight;
 
-							if (up && !left && !down && !right) this.frontAngle = DEG_0;else if (up && left && !down && !right) this.frontAngle = DEG_45;else if (!up && left && !down && !right) this.frontAngle = DEG_90;else if (!up && left && down && !right) this.frontAngle = DEG_135;else if (!up && !left && down && !right) this.frontAngle = DEG_180;else if (!up && !left && down && right) this.frontAngle = DEG_225;else if (!up && !left && !down && right) this.frontAngle = DEG_270;else if (up && !left && !down && right) this.frontAngle = DEG_315;
+							if (up && !left && !down && !right) this.frontAngle = DEG_0;
+							else if (up && left && !down && !right) this.frontAngle = DEG_45;
+							else if (!up && left && !down && !right) this.frontAngle = DEG_90;
+							else if (!up && left && down && !right) this.frontAngle = DEG_135;
+							else if (!up && !left && down && !right) this.frontAngle = DEG_180;
+							else if (!up && !left && down && right) this.frontAngle = DEG_225;
+							else if (!up && !left && !down && right) this.frontAngle = DEG_270;
+							else if (up && !left && !down && right) this.frontAngle = DEG_315;
 						}
 					}]);
 
@@ -1648,7 +1852,11 @@
 						this.dispatchEvent({ type: 'movekeychange' });
 					}
 
-					if (!this.isUp && !this.isDown && !this.isLeft && !this.isRight && (event.keyCode === KEY_W || event.keyCode === KEY_UP || event.keyCode === KEY_S || event.keyCode === KEY_DOWN || event.keyCode === KEY_A || event.keyCode === KEY_LEFT || event.keyCode === KEY_D || event.keyCode === KEY_RIGHT)) {
+					if (!this.isUp && !this.isDown && !this.isLeft && !this.isRight 
+						&& (event.keyCode === KEY_W || event.keyCode === KEY_UP 
+							|| event.keyCode === KEY_S || event.keyCode === KEY_DOWN 
+							|| event.keyCode === KEY_A || event.keyCode === KEY_LEFT 
+							|| event.keyCode === KEY_D || event.keyCode === KEY_RIGHT)) {
 
 						this.isMoveKeyHolded = false;
 						this.dispatchEvent({ type: 'movekeyoff' });
@@ -1669,13 +1877,50 @@
 					}
 				}
 
-				var _createClass$6 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+				var _createClass$6 = function () { 
+					function defineProperties(target, props) { 
+						for (var i = 0; i < props.length; i++) { 
+							var descriptor = props[i]; 
+							descriptor.enumerable = descriptor.enumerable || false; 
+							descriptor.configurable = true; 
+							if ("value" in descriptor) descriptor.writable = true; 
+							Object.defineProperty(target, descriptor.key, descriptor); 
+						} 
+					} 
+					return function (Constructor, protoProps, staticProps) { 
+						if (protoProps) defineProperties(Constructor.prototype, protoProps); 
+						if (staticProps) defineProperties(Constructor, staticProps); 
+						return Constructor; 
+					}; 
+				}();
 
-				function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+				function _classCallCheck$6(instance, Constructor) { 
+					if (!(instance instanceof Constructor)) { 
+						throw new TypeError("Cannot call a class as a function"); 
+					} 
+				}
 
-				function _possibleConstructorReturn$2(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+				function _possibleConstructorReturn$2(self, call) { 
+					if (!self) { 
+						throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); 
+					} 
+					return call && (typeof call === "object" || typeof call === "function") ? call : self; 
+				}
 
-				function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+				function _inherits$2(subClass, superClass) { 
+					if (typeof superClass !== "function" && superClass !== null) { 
+						throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); 
+					} 
+					subClass.prototype = Object.create(superClass && superClass.prototype, { 
+						constructor: { 
+							value: subClass, 
+							enumerable: false, 
+							writable: true, 
+							configurable: true 
+						} 
+					}); 
+					if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; 
+				}
 
 				var PI2 = Math.PI * 2;
 				var PI_HALF = Math.PI / 2;
@@ -1737,7 +1982,12 @@
 						key: 'update',
 						value: function update() {
 
-							this._center = new THREE.Vector3(this.trackObject.matrixWorld.elements[12] + this.offset.x, this.trackObject.matrixWorld.elements[13] + this.offset.y, this.trackObject.matrixWorld.elements[14] + this.offset.z);
+							this._center = new THREE.Vector3(
+								this.trackObject.matrixWorld.elements[12] 
+								+ this.offset.x, this.trackObject.matrixWorld.elements[13] 
+								+ this.offset.y, this.trackObject.matrixWorld.elements[14] 
+								+ this.offset.z
+							);
 
 							var position = new THREE.Vector3(Math.cos(this.phi) * Math.cos(this.theta + PI_HALF), Math.sin(this.phi), Math.cos(this.phi) * Math.sin(this.theta + PI_HALF));
 							var distance = this.collisionTest(position.clone().normalize());
@@ -1759,13 +2009,17 @@
 							this.camera.lookAt(this._center);
 							this.dispatchEvent({ type: 'updated' });
 						}
+
 					}, {
+
 						key: 'getFrontAngle',
 						value: function getFrontAngle() {
 
 							return PI2 + this.theta;
 						}
+
 					}, {
+
 						key: 'setNearPlainCornersWithPadding',
 						value: function setNearPlainCornersWithPadding() {
 
@@ -1774,9 +2028,16 @@
 							var h = Math.tan(halfFov * THREE.Math.DEG2RAD) * near;
 							var w = h * this.camera.aspect;
 
-							this.nearPlainCornersWithPadding = [new THREE.Vector3(-w - near, -h - near, 0), new THREE.Vector3(w + near, -h - near, 0), new THREE.Vector3(w + near, h + near, 0), new THREE.Vector3(-w - near, h + near, 0)];
+							this.nearPlainCornersWithPadding = [
+								new THREE.Vector3(-w - near, -h - near, 0), 
+								new THREE.Vector3(w + near, -h - near, 0), 
+								new THREE.Vector3(w + near, h + near, 0), 
+								new THREE.Vector3(-w - near, h + near, 0)
+							];
 						}
+
 					}, {
+
 						key: 'setLatLon',
 						value: function setLatLon(lat, lon) {
 
@@ -1786,7 +2047,9 @@
 							this.phi = this.lat * THREE.Math.DEG2RAD;
 							this.theta = -this.lon * THREE.Math.DEG2RAD;
 						}
+
 					}, {
+
 						key: 'collisionTest',
 						value: function collisionTest(direction) {
 
@@ -1881,7 +2144,7 @@
 				exports.KeyInputControl = KeyInputControl;
 				exports.TPSCameraControl = TPSCameraControl;
 
-				Object.defineProperty(exports, '__esModule', { value: true });
+				Object.defineProperty(exports, "__esModule", { value: true });
 
 			})));
 
@@ -1897,13 +2160,10 @@
 			var keyInputControls;
 			var animationController;
 
-			var debugMode = true;
-
-			var Signal = signals.Signal;
-			var materialSelected = new Signal();
-
 			MW.install( THREE ); // important!
 
+			var debugMode = true;
+			var Signal = signals.Signal;
 			var loader = new THREE.FileLoader();
 			loader.load( "app.json", function ( text ) {
 

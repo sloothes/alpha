@@ -23,7 +23,7 @@
 			"near": 1,
 			"far": 10000,
 			"focus": 10,
-			"aspect": 1.8764705882352941,
+			"aspect": 1.7741935483870968,
 			"filmGauge": 35,
 			"filmOffset": 0
 		}
@@ -78,36 +78,40 @@
 		"447F879B-4090-46CD-B04C-DA4E2BC14E16": [
 			{
 				"name": "world.js",
-				"source": ""
+				"source": "world = new MW.World();\n\nvar min = new THREE.Vector3( -1500, -1500, -1500 );\nvar max = new THREE.Vector3(  1500,  1500,  1500 );\nvar partition = 5;\n\noctree = new MW.Octree( min, max, partition );\nworld.add( octree );\n\n//\tground.js\n\nvar ground = new THREE.Mesh(\n\tnew THREE.PlaneGeometry( 3000, 3000, 1, 1 ),\n\tnew THREE.MeshLambertMaterial({ \n\t\topacity:1, \n\t\tcolor:0x829ec4,\n\t})\n);\n\n//\tWe need only the geometry of the ground\n//\tso there is not need to add to the scene.\nground.rotation.x = -Math.PI / 2; // THREE.Math.degToRad( -90 );\noctree.importThreeMesh( ground ); // important!\n\n\nvar clock = new THREE.Clock();\n\nfunction update(){\n\n\tvar delta = clock.getDelta();\n\tworld.step( Math.min( delta, 0.02 ) );\n\n}"
 			},
 			{
 				"name": "playerHolder.js",
-				"source": ""
+				"source": "playerRadius = 10;\nplayerObjectHolder = new THREE.Object3D();\nplayerObjectHolder.position.set( 0, 10, 0 );\nscene.add( playerObjectHolder );\n\nvar sphere = new THREE.Mesh(\n\tnew THREE.SphereGeometry( playerRadius, 8, 4 ),\n\tnew THREE.MeshBasicMaterial( { color: 0xff0000,  wireframe: true} )\n);\n\nplayerObjectHolder.add( sphere );\n"
 			},
 			{
 				"name": "playerController.js",
-				"source": ""
+				"source": "playerController = new MW.CharacterController( playerObjectHolder, playerRadius );\nworld.add( playerController );\n"
 			},
 			{
 				"name": "keyInputControls.js",
+				"source": "keyInputControls = new MW.KeyInputControl();\n\ncameraControls = new MW.TPSCameraControl(\n\tcamera, \t\t\t// three.js camera.\n\tplayerObjectHolder,\t// tracking object.\n\t{\n\t\tel: renderer.domElement,\n\t\toffset: new THREE.Vector3( 0, 10, 0 ), // eye height.\n\t\t//\tradius: 1, // default distance of the character to the camera.\n\t\t//\tminRadius: 1,\n\t\t//\tmaxRadius: 80,\n\t\trigidObjects: []\n\t}\n);\n\n// bind events.\n\nkeyInputControls.addEventListener( \"movekeyon\", function () { \n\tplayerController.isRunning = true; \n});\n\nkeyInputControls.addEventListener( \"movekeyoff\", function () { \n\tplayerController.isRunning = false; \n});\n\nkeyInputControls.addEventListener( \"jumpkeypress\", function () { \n\tplayerController.jump(); \n});\n\n// synk with keybord input and camera control input.\nkeyInputControls.addEventListener( \"movekeychange\",  function () {\n\tvar cameraFrontAngle = cameraControls.getFrontAngle();\n\tvar characterFrontAngle = keyInputControls.frontAngle;\n\tplayerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n});\n\n//\t\"updated\" event is fired by \"cameraControls.update()\"\n\ncameraControls.addEventListener( \"updated\", function () {\n\tvar cameraFrontAngle = cameraControls.getFrontAngle();\n\tvar characterFrontAngle = keyInputControls.frontAngle;\n\tplayerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n});\n\nfunction update(){\n\n\tcameraControls.update()\n\n}\n"
+			},
+			{
+				"name": "",
 				"source": ""
 			},
 			{
-				"name": "cameraControls.js",
+				"name": "",
 				"source": ""
 			},
 			{
-				"name": "ground.js",
-				"source": ""
-			},
-			{
-				"name": "animationController.js",
+				"name": "",
 				"source": ""
 			}],
 		"01D3F453-9111-421D-BDAE-0F50DC307123": [
 			{
 				"name": "groundHelper.js",
 				"source": "groundHelper = this;\nthis.add( new THREE.GridHelper( 3000, 300, 0x444444, 0x444444 ) );"
+			},
+			{
+				"name": "",
+				"source": ""
 			}]
 	}
 }
