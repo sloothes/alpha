@@ -2184,10 +2184,13 @@
 
 				playerController.addEventListener( "startIdling",  function () { animationController.play( "Armature|Standing"); } );
 				playerController.addEventListener( "startWalking", function () { animationController.play( "Armature|Running" ); } );
-				playerController.addEventListener( "startJumping", function () { animationController.play( "Armature|Jumping" ); } );
 
-				playerController.addEventListener( "startIdling",  function () { animationController.motion[ "Armature|Jumping" ].stop(); } ); // hack.
-				playerController.addEventListener( "startWalking", function () { animationController.motion[ "Armature|Jumping" ].stop(); } ); // hack.
+				playerController.addEventListener( "startJumping", function () { 
+					animationController.motion["Armature|Jumping"].reset();
+					animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
+				//	animationController.play( "Armature|Jumping" ); 
+				});
+
 
 			//	playerController.addEventListener( "startSliding", function () { animationController.play( "Armature|Sitting" ); } );
 			//	playerController.addEventListener( "startFalling", function () { animationController.play( "Armature|Sitting" ); } );
