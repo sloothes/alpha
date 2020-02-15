@@ -2201,10 +2201,10 @@
 				setTimeout( function( object ){
 
 					animationController = new MW.AnimationController( object );
-					animationController.motion.jump.setLoop( THREE.LoopOnce, 0 );
-					animationController.motion.slide.setLoop( THREE.LoopOnce, 0 );
-					animationController.motion.jump.clampWhenFinished = true;
-					animationController.motion.slide.clampWhenFinished = true;
+					animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 );
+					animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 );
+					animationController.motion["Armature|Jumping"].clampWhenFinished = true;
+					animationController.motion["Armature|Sitting"].clampWhenFinished = true;
 
 					var clock = new THREE.Clock();
 
