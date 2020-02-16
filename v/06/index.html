@@ -2168,7 +2168,7 @@
 			loader.load( url, function( object ){
 
 				object.name = "SchoolSkirtCorset_v1";
-				var s = 0.045; object.scale.set(s, s, s); // important!
+				var s = 1; object.scale.set(s, s, s); // important!
 				scene.add( object );
 				debugMode && console.log( object ); // object is THREE.Group.
 
@@ -2176,6 +2176,7 @@
 			//		return child.type == "SkinnedMesh";
 			//	}); debugMode && console.log( mesh );
 
+		/*
 				animationController = new MW.AnimationController( object );
 				animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
 				animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 ); // important!
@@ -2228,7 +2229,7 @@
 					animationController.update( delta );
 
 				})();
-
+		*/
 
 			});
 
