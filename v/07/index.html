@@ -2268,6 +2268,7 @@
 				header.textContent = "Animation";
 
 				var select = document.createElement("select");
+				select.id = "animation-droplist";
 				select.style.cssText = "width:180px;color:#000;" // float:left;
 					+ "border:1px solid;border-radius:4px;padding:2px 4px 4px 4px;"
 					+ "font-size:20px;margin-left:10px;";
@@ -2447,6 +2448,29 @@
 					animationController.update( delta );
 
 				})();
+
+			//	Create animation options.
+
+				(function(){
+
+					var select = document.getElementById("animation-droplist");
+					Object.keys( animationController.motion ).forEach( function( name ){
+						select.appendChild( createOption( name ) );
+					});
+
+					function createOption(name, i){
+						var option = document.createElement("option");
+						option.text = option.value = name;
+						return option;
+					}
+					
+					select.addEventListener("change", function(){
+						animationController.play( select.value );
+					});
+
+				})();
+
+
 
 			//	Remove loading bar.
 				document.getElementById("loading-bar").remove();
