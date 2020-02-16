@@ -23,7 +23,7 @@
 			"near": 1,
 			"far": 10000,
 			"focus": 10,
-			"aspect": 1.7741935483870968,
+			"aspect": 1.8764705882352941,
 			"filmGauge": 35,
 			"filmOffset": 0
 		}
@@ -116,7 +116,7 @@
 		"DCB6601D-6874-440A-9CB2-7039F77764CF": [
 			{
 				"name": "",
-				"source": "var light = this;\n\nfunction update() {\n\n\tlight.position.copy( camera.position );\n\n}"
+				"source": "var light = this;\n\ncameraControls.addEventListener( \"updated\", function () {\n\n\tlight.position.copy( camera.position );\n\n});"
 			}]
 	}
 }
