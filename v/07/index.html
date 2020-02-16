@@ -2390,12 +2390,12 @@
 
 				animationController = new MW.AnimationController( fbx );
 				debugMode && console.log( Object.keys( animationController.motion ).join("\n\t") );
-				animationController.motion["Jump"].setLoop( THREE.LoopOnce, 0 ); // important!
-				animationController.motion["Jump"].clampWhenFinished = true;     // important!
-				animationController.motion["Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
-				animationController.motion["Jumping"].clampWhenFinished = true;     // important!
-				animationController.motion["Falling"].setLoop( THREE.LoopOnce, 0 ); // important!
-				animationController.motion["Falling"].clampWhenFinished = true;     // important!
+				animationController.motion["Jump"].setLoop( THREE.LoopOnce, 0 );     // important!
+				animationController.motion["Jump"].clampWhenFinished = true;         // important!
+				animationController.motion["Jumping"].setLoop( THREE.LoopOnce, 0 );  // important!
+				animationController.motion["Jumping"].clampWhenFinished = true;      // important!
+				animationController.motion["Falling"].setLoop( THREE.LoopOnce, 0 );  // important!
+				animationController.motion["Falling"].clampWhenFinished = true;      // important!
 				animationController.motion["Standing"].setLoop( THREE.LoopOnce, 0 ); // important!
 				animationController.motion["Standing"].clampWhenFinished = true;     // important!
 
@@ -2478,6 +2478,12 @@
 							animationController.motion[ name ].reset();
 						}
 					});
+
+					playerController.addEventListener( "startIdling",  function () { select.value = "Idling"; } );
+					playerController.addEventListener( "startWalking", function () { select.value = "Running"; } );
+					playerController.addEventListener( "startJumping", function () { select.value = "Jumping"; } );
+					playerController.addEventListener( "startSliding", function () { select.value = "Falling"; } );
+					playerController.addEventListener( "startFalling", function () { select.value = "Falling"; } );
 
 				})();
 
