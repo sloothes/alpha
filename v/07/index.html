@@ -2362,13 +2362,13 @@
 			var loader = new THREE.FBXLoader();
 			loader.load( url, function( fbx ){
 
-				fbx.name = "SchoolSkirtCorset_v1";
+				fbx.name = "SunDressHighHeels";
 
-			//	FBX armature scale in .blend file is 0.01, and
+			//	FBX armature scale in .blend file is 0.000675, and
 			//	armature children scale (meshes) is 100, as mixamo returns.
 			//	Exported FBX blender scale is 1.0;
 
-				var s = 0.045; fbx.scale.set(s, s, s); // important!
+				var s = 1; fbx.scale.set(s, s, s); // important!
 
 			//	CleanUp animation names.
 				fbx.animations.forEach( function( clip ){
@@ -2388,10 +2388,10 @@
 				animationController = new MW.AnimationController( fbx );
 				animationController.motion["Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
 				animationController.motion["Jumping"].clampWhenFinished = true;     // important!
-			//	animationController.motion["Sitting"].setLoop( THREE.LoopOnce, 0 ); // important!
-			//	animationController.motion["Sitting"].clampWhenFinished = true;     // important!
+				animationController.motion["Falling"].setLoop( THREE.LoopOnce, 0 ); // important!
+				animationController.motion["Falling"].clampWhenFinished = true;     // important!
 
-				playerController.addEventListener( "startIdling",  function () { animationController.play( "Standing"); } );
+				playerController.addEventListener( "startIdling",  function () { animationController.play( "Idling"); } );
 				playerController.addEventListener( "startWalking", function () { animationController.play( "Running" ); } );
 
 			//	My way is to have each animation for jumping/sliding and in event listener the controller play the animation
@@ -2403,16 +2403,16 @@
 				});
 
 				playerController.addEventListener( "startSliding", function () { 
-				//	animationController.play( "Sitting" );         // important! demo!
-				//	animationController.motion["Sitting"].reset(); // important! demo!
+					animationController.play( "Falling" );         // important!
+					animationController.motion["Falling"].reset(); // important!
 				});
 
 				playerController.addEventListener( "startFalling", function () { 
-				//	animationController.play( "Sitting" );         // important! demo!
-				//	animationController.motion["Sitting"].reset(); // important! demo!
+					animationController.play( "Falling" );         // important!
+					animationController.motion["Falling"].reset(); // important!
 				});
 
-				animationController.play( "Idling");
+				animationController.play( "Idling" );
 
 			//	yomotsu way was to have one frame pose for jump/sliding animation and use event listener to play that pose:
 				//	animationController.motion[ "JumpPose" ].setLoop( THREE.LoopOnce, 0 );
