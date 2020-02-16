@@ -2393,6 +2393,8 @@
 				animationController.motion["Jumping"].clampWhenFinished = true;     // important!
 				animationController.motion["Falling"].setLoop( THREE.LoopOnce, 0 ); // important!
 				animationController.motion["Falling"].clampWhenFinished = true;     // important!
+				animationController.motion["Standing"].setLoop( THREE.LoopOnce, 0 ); // important!
+				animationController.motion["Standing"].clampWhenFinished = true;     // important!
 
 				playerController.addEventListener( "startIdling",  function () { animationController.play( "Idling"); } );
 				playerController.addEventListener( "startWalking", function () { animationController.play( "Running" ); } );
@@ -2467,7 +2469,11 @@
 					}
 					
 					select.addEventListener("change", function(){
-						animationController.play( select.value );
+						var name = select.value
+						animationController.play( name );
+						if ( animationController.motion[name].clampWhenFinished ) {
+							animationController.motion[ name ].reset();
+						}
 					});
 
 				})();
