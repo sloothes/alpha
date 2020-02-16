@@ -2165,29 +2165,32 @@
 
 			var url = "SchoolSkirtCorset_onHighBoots_animations_v4(42b).fbx";
 			var loader = new THREE.FBXLoader();
-			loader.load( url, function( object ){
+			loader.load( url, function( fbx ){
 
-				object.name = "SchoolSkirtCorset_v1";
+				fbx.name = "SchoolSkirtCorset_v1";
 
 			//	FBX armature scale in blend file is 0.01, and
 			//	armature childrens scale (meshes) is 100, as mixamo returns.
 			//	Exported FBX blender scale is 1.0;
 
-				var s = 0.003; object.scale.set(s, s, s); // important!
+				var s = 0.045; fbx.scale.set(s, s, s); // important!
 
 			//	CleanUp animation names.
-				object.animations.forEach( function( clip ){
+				fbx.animations.forEach( function( clip ){
 					clip.name = clip.name.replace("Armature|", "");
 				});
 
-				scene.add( object );
-				debugMode && console.log( object ); // object is THREE.Group.
+				scene.add( fbx );
+				debugMode && console.log( fbx ); // fbx is THREE.Group.
 
-			//	var mesh = object.children.find( function( child ){
+			//	var mesh = fbx.children.find( function( child ){
 			//		return child.type == "SkinnedMesh";
 			//	}); debugMode && console.log( mesh );
 
-				animationController = new MW.AnimationController( object );
+
+			//	Animation Controller.
+
+				animationController = new MW.AnimationController( fbx );
 				animationController.motion["Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
 				animationController.motion["Jumping"].clampWhenFinished = true;     // important!
 			//	animationController.motion["Sitting"].setLoop( THREE.LoopOnce, 0 ); // important!
@@ -2198,6 +2201,7 @@
 
 			//	My way is to have each animation for jumping/sliding and in event listener the controller play the animation
 			//	and then resets the animation controller motion. Its this looks to work correctly (play and reset motion).
+
 				playerController.addEventListener( "startJumping", function () { 
 					animationController.play( "Jumping" );         // important!
 					animationController.motion["Jumping"].reset(); // important!
@@ -2215,10 +2219,18 @@
 
 				animationController.play( "Idling");
 
-			//	yomotsu way is to have one frame pose for jump/sliding animation and use event listener to play that pose.
-			//	playerController.addEventListener( "startJumping", function () { animationController.play( "Jump Pose" ); } );
-			//	playerController.addEventListener( "startSliding", function () { animationController.play( "SlidePose" ); } );
-			//	playerController.addEventListener( "startFalling", function () { animationController.play( "SlidePose" ); } );
+			//	yomotsu way was to have one frame pose for jump/sliding animation and use event listener to play that pose:
+				//	animationController.motion[ "JumpPose" ].setLoop( THREE.LoopOnce, 0 );
+				//	animationController.motion[ "SlidPose" ].setLoop( THREE.LoopOnce, 0 );
+				//	animationController.motion[ "FallPose" ].setLoop( THREE.LoopOnce, 0 );
+				//	animationController.motion[ "JumpPose" ].clampWhenFinished = true;
+				//	animationController.motion[ "SlidPose" ].clampWhenFinished = true;
+				//	animationController.motion[ "FallPose" ].clampWhenFinished = true;
+				//	playerController.addEventListener( "startJumping", function () { animationController.play( "JumpPose" ); } );
+				//	playerController.addEventListener( "startSliding", function () { animationController.play( "SlidPose"); } );
+				//	playerController.addEventListener( "startFalling", function () { animationController.play( "FallPose" ); } );
+
+			//	Animation Controller update.
 
 				var clock = new THREE.Clock();
 
