@@ -1,0 +1,118 @@
+{
+	"metadata": {
+		"type": "App"
+	},
+	"project": {
+		"shadows": true,
+		"vr": false
+	},
+	"camera": {
+		"metadata": {
+			"version": 4.5,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"object": {
+			"uuid": "A2242D4F-A4DE-4AA7-85B3-366A88ABCF09",
+			"type": "PerspectiveCamera",
+			"name": "Camera",
+			"layers": 1,
+			"matrix": [-0.04737124534853622,2.775557561562892e-17,0.9988773523882345,0,0.3646040025346725,0.9310021145017702,0.01729115753584054,0,-0.9299569272013762,0.3650137843879773,-0.04410272958606943,0,-34.96901028295401,12.007004361914419,-0.16434212244335722,1],
+			"fov": 50,
+			"zoom": 1,
+			"near": 1,
+			"far": 10000,
+			"focus": 10,
+			"aspect": 1.8764705882352941,
+			"filmGauge": 35,
+			"filmOffset": 0
+		}
+	},
+	"scene": {
+		"metadata": {
+			"version": 4.5,
+			"type": "Object",
+			"generator": "Object3D.toJSON"
+		},
+		"object": {
+			"uuid": "447F879B-4090-46CD-B04C-DA4E2BC14E16",
+			"type": "Scene",
+			"name": "Scene",
+			"layers": 1,
+			"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+			"children": [
+				{
+					"uuid": "DCB6601D-6874-440A-9CB2-7039F77764CF",
+					"type": "DirectionalLight",
+					"name": "Camera Light",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,5,10,7.5,1],
+					"color": 16777215,
+					"intensity": 1,
+					"shadow": {
+						"camera": {
+							"uuid": "AE753E26-B5BC-4CEA-AEE9-C71BA3EEB1A0",
+							"type": "OrthographicCamera",
+							"layers": 1,
+							"zoom": 1,
+							"left": -5,
+							"right": 5,
+							"top": 5,
+							"bottom": -5,
+							"near": 0.5,
+							"far": 500
+						}
+					}
+				},
+				{
+					"uuid": "01D3F453-9111-421D-BDAE-0F50DC307123",
+					"type": "Group",
+					"name": "Ground Helper",
+					"layers": 1,
+					"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]
+				}],
+			"background": 0
+		}
+	},
+	"scripts": {
+		"447F879B-4090-46CD-B04C-DA4E2BC14E16": [
+			{
+				"name": "world.js",
+				"source": "world = new MW.World();\n\nvar min = new THREE.Vector3( -1500, -1500, -1500 );\nvar max = new THREE.Vector3(  1500,  1500,  1500 );\nvar partition = 5;\n\noctree = new MW.Octree( min, max, partition );\nworld.add( octree );\n\n//\tground.js\n\nvar ground = new THREE.Mesh(\n\tnew THREE.PlaneGeometry( 3000, 3000, 1, 1 ),\n\tnew THREE.MeshLambertMaterial({ \n\t\topacity:1, \n\t\tcolor:0x829ec4,\n\t})\n);\n\n//\tWe need only the geometry of the ground\n//\tso there is not need to add to the scene.\nground.rotation.x = -Math.PI / 2; // THREE.Math.degToRad( -90 );\noctree.importThreeMesh( ground ); // important!\n\n\nvar clock = new THREE.Clock();\n\nfunction update(){\n\n\tvar delta = clock.getDelta();\n\tworld.step( Math.min( delta, 0.02 ) );\n\n}"
+			},
+			{
+				"name": "playerController.js",
+				"source": "playerRadius = 10;\nplayerObjectHolder = new THREE.Object3D();\nplayerObjectHolder.position.set( 0, 10, 0 );\nscene.add( playerObjectHolder );\n\n//\tPlayer helper.\n\nvar sphere = new THREE.Mesh(\n\tnew THREE.SphereGeometry( playerRadius, 8, 6 ),\n\tnew THREE.MeshBasicMaterial( { color: 0xff0000,  wireframe: true} )\n);\n\nplayerObjectHolder.add( sphere );\n\n//\tPlayer controller.\n\nplayerController = new MW.CharacterController( playerObjectHolder, playerRadius );\nplayerController.movementSpeed = 50;\nworld.add( playerController );\n"
+			},
+			{
+				"name": "keyInputControls.js",
+				"source": "keyInputControls = new MW.KeyInputControl();\n\ncameraControls = new MW.TPSCameraControl(\n\tcamera, \t\t\t// three.js camera.\n\tplayerObjectHolder,\t// tracking object.\n\t{\n\t\tel: renderer.domElement,\n\t\toffset: new THREE.Vector3( 0, 0, 0 ), // eye height.\n\t\tradius: 34, // default distance of the character to the camera.\n\t\tminRadius: 1,\n\t\tmaxRadius: 280,\n\t\trigidObjects: []\n\t}\n);\n\n// bind events.\n\nkeyInputControls.addEventListener( \"movekeyon\", function () { \n\tplayerController.isRunning = true; \n});\n\nkeyInputControls.addEventListener( \"movekeyoff\", function () { \n\tplayerController.isRunning = false; \n});\n\nkeyInputControls.addEventListener( \"jumpkeypress\", function () { \n\tplayerController.jump(); \n});\n\n// synk with keybord input and camera control input.\nkeyInputControls.addEventListener( \"movekeychange\",  function () {\n\tvar cameraFrontAngle = cameraControls.getFrontAngle();\n\tvar characterFrontAngle = keyInputControls.frontAngle;\n\tplayerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n});\n\n/*\n//\t\"updated\" event is fired by \"cameraControls.update()\"\ncameraControls.addEventListener( \"updated\", function () {\n\n//\tit updates character front angle with the camera view.\n//  I want camera independed from character front angle,\n//\tso I keep it disactivated. Maybe used somewhere later.\n\n\tvar cameraFrontAngle = cameraControls.getFrontAngle();\n\tvar characterFrontAngle = keyInputControls.frontAngle;\n\tplayerController.direction = THREE.Math.degToRad( 360 ) - cameraFrontAngle + characterFrontAngle;\n\n});\n*/\n\nfunction update(){\n\n\tcameraControls.update()\n\n}\n"
+			},
+			{
+				"name": "",
+				"source": ""
+			},
+			{
+				"name": "",
+				"source": ""
+			},
+			{
+				"name": "",
+				"source": ""
+			},
+			{
+				"name": "",
+				"source": ""
+			}],
+		"01D3F453-9111-421D-BDAE-0F50DC307123": [
+			{
+				"name": "groundHelper.js",
+				"source": "groundHelper = this;\nvar grid = new THREE.GridHelper( 3000, 300, 0x444444, 0x444444 );\n\ngroundHelper.add( grid );"
+			}],
+		"DCB6601D-6874-440A-9CB2-7039F77764CF": [
+			{
+				"name": "cameraLight",
+				"source": "var cameraLight = this;\ncameraLight.target = playerObjectHolder;\n\nfunction update(){\n\n\tcameraLight.position.copy( camera.position );\n\n}"
+			}]
+	}
+}
