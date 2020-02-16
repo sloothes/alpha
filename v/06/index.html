@@ -2168,7 +2168,18 @@
 			loader.load( url, function( object ){
 
 				object.name = "SchoolSkirtCorset_v1";
-				var s = 1; object.scale.set(s, s, s); // important!
+
+			//	FBX armature scale in blend file is 0.01, and
+			//	armature childrens scale (meshes) is 100, as mixamo returns.
+			//	Exported FBX blender scale is 1.0;
+
+				var s = 0.003; object.scale.set(s, s, s); // important!
+
+			//	CleanUp animation names.
+				object.animations.forEach( function( clip ){
+					clip.name = clip.name.replace("Armature|", "");
+				});
+
 				scene.add( object );
 				debugMode && console.log( object ); // object is THREE.Group.
 
@@ -2176,39 +2187,38 @@
 			//		return child.type == "SkinnedMesh";
 			//	}); debugMode && console.log( mesh );
 
-		/*
 				animationController = new MW.AnimationController( object );
-				animationController.motion["Armature|Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
-				animationController.motion["Armature|Sitting"].setLoop( THREE.LoopOnce, 0 ); // important!
-				animationController.motion["Armature|Jumping"].clampWhenFinished = true;     // important!
-				animationController.motion["Armature|Sitting"].clampWhenFinished = true;     // important!
+				animationController.motion["Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
+				animationController.motion["Jumping"].clampWhenFinished = true;     // important!
+			//	animationController.motion["Sitting"].setLoop( THREE.LoopOnce, 0 ); // important!
+			//	animationController.motion["Sitting"].clampWhenFinished = true;     // important!
 
-				playerController.addEventListener( "startIdling",  function () { animationController.play( "Armature|Standing"); } );
-				playerController.addEventListener( "startWalking", function () { animationController.play( "Armature|Running" ); } );
-
-			//	yomotsu way is to have only a pose for jump/sliding animation and use event listener to play that pose.
-			//	playerController.addEventListener( "startJumping", function () { animationController.play( "Jump|Pose" ); } );
-			//	playerController.addEventListener( "startSliding", function () { animationController.play( "SlidePose" ); } );
-			//	playerController.addEventListener( "startFalling", function () { animationController.play( "SlidePose" ); } );
+				playerController.addEventListener( "startIdling",  function () { animationController.play( "Standing"); } );
+				playerController.addEventListener( "startWalking", function () { animationController.play( "Running" ); } );
 
 			//	My way is to have each animation for jumping/sliding and in event listener the controller play the animation
 			//	and then resets the animation controller motion. Its this looks to work correctly (play and reset motion).
 				playerController.addEventListener( "startJumping", function () { 
-					animationController.play( "Armature|Jumping" );         // important!
-					animationController.motion["Armature|Jumping"].reset(); // important!
+					animationController.play( "Jumping" );         // important!
+					animationController.motion["Jumping"].reset(); // important!
 				});
 
 				playerController.addEventListener( "startSliding", function () { 
-					animationController.play( "Armature|Sitting" );         // important!
-					animationController.motion["Armature|Sitting"].reset(); // important!
+					animationController.play( "Sitting" );         // important! demo!
+				//	animationController.motion["Sitting"].reset(); // important! demo!
 				});
 
 				playerController.addEventListener( "startFalling", function () { 
-					animationController.play( "Armature|Sitting" );         // important!
-					animationController.motion["Armature|Sitting"].reset(); // important!
+					animationController.play( "Sitting" );         // important! demo!
+				//	animationController.motion["Sitting"].reset(); // important! demo!
 				});
 
-				animationController.play( "Armature|Idling");
+				animationController.play( "Idling");
+
+			//	yomotsu way is to have one frame pose for jump/sliding animation and use event listener to play that pose.
+			//	playerController.addEventListener( "startJumping", function () { animationController.play( "Jump Pose" ); } );
+			//	playerController.addEventListener( "startSliding", function () { animationController.play( "SlidePose" ); } );
+			//	playerController.addEventListener( "startFalling", function () { animationController.play( "SlidePose" ); } );
 
 				var clock = new THREE.Clock();
 
