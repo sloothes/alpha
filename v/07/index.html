@@ -2389,6 +2389,8 @@
 			//	Animation Controller.
 
 				animationController = new MW.AnimationController( fbx );
+				animationController.motion["Jump"].setLoop( THREE.LoopOnce, 0 ); // important!
+				animationController.motion["Jump"].clampWhenFinished = true;     // important!
 				animationController.motion["Jumping"].setLoop( THREE.LoopOnce, 0 ); // important!
 				animationController.motion["Jumping"].clampWhenFinished = true;     // important!
 				animationController.motion["Falling"].setLoop( THREE.LoopOnce, 0 ); // important!
